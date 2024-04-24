@@ -149,3 +149,12 @@ def note_edit(request, project_id, pk):
         'project': project,
         'note': note
     })
+
+
+@login_required
+def note_delete(request, project_id, pk):
+    project = Project.objects.filter(created_by=request.user).get(pk=project_id)
+    note = project.notes.get(pk=pk)
+    note.delete()
+
+    return redirect(f'/projects/{project_id}/')
